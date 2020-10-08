@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://xy19950225.github.io/hugo-blog/sitemap.xml
