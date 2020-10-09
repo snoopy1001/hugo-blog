@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Yang Xu" /><meta name="description" content="来源：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添" /><meta name="keywords" content="生活, 学习, 工作" />
+<meta name="author" content="Yang Xu" /><meta name="description" content="原址：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添" /><meta name="keywords" content="生活, 学习, 工作" />
 
 
 
@@ -40,22 +40,22 @@
 
 
 <meta property="og:title" content="[转载] SQL 窗口函数的优化和执行" />
-<meta property="og:description" content="来源：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添" />
+<meta property="og:description" content="原址：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://xy19950225.github.io/hugo-blog/post/2020-10-08-%E8%BD%AC%E8%BD%BD-sql-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E6%89%A7%E8%A1%8C/" />
 <meta property="article:published_time" content="2020-10-08T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-10-08T00:00:00+00:00" />
 <meta itemprop="name" content="[转载] SQL 窗口函数的优化和执行">
-<meta itemprop="description" content="来源：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添">
+<meta itemprop="description" content="原址：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添">
 <meta itemprop="datePublished" content="2020-10-08T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-10-08T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2810">
+<meta itemprop="wordCount" content="2727">
 
 
 
 <meta itemprop="keywords" content="计算机,数据库,SQL," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="[转载] SQL 窗口函数的优化和执行"/>
-<meta name="twitter:description" content="来源：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添"/>
+<meta name="twitter:description" content="原址：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -129,7 +129,7 @@
         <div class="post-category">
             <a href="/hugo-blog/categories/%E5%AD%A6%E4%B9%A0/"> 学习 </a>
             </div>
-          <span class="more-meta"> 约 2810 字 </span>
+          <span class="more-meta"> 约 2727 字 </span>
           <span class="more-meta"> 预计阅读 6 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -156,7 +156,7 @@
 </div>
     <div class="post-content">
       <blockquote>
-<p><strong>来源</strong>：<a href="https://ericfu.me/sql-window-function/">Eric Fu 的博客</a></p>
+<p>原址：<a href="https://ericfu.me/sql-window-function/">Eric Fu 的博客</a></p>
 </blockquote>
 <p><strong>窗口函数</strong>（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添加了若干处拓展。窗口函数不同于我们熟悉的普通函数和聚合函数，它为每行数据进行一次计算：<strong>输入多行（一个窗口）、返回一个值</strong>。在报表等分析型查询中，窗口函数能优雅地表达某些需求，发挥不可替代的作用。</p>
 <p>本文首先介绍窗口函数的定义及基本语法，之后将介绍在 DBMS 和大数据系统中是如何实现高效计算窗口函数的，包括窗口函数的优化、执行以及并行执行。</p>
@@ -170,10 +170,10 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">window_function (expression) OVER (
-   [ PARTITION BY part_list ]
-   [ ORDER BY order_list ]
-   [ { ROWS | RANGE } BETWEEN frame_start AND frame_end ] )
+<pre class="chroma"><code class="language-SQL" data-lang="SQL"><span class="n">window_function</span> <span class="p">(</span><span class="n">expression</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span>
+   <span class="p">[</span> <span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">part_list</span> <span class="p">]</span>
+   <span class="p">[</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_list</span> <span class="p">]</span>
+   <span class="p">[</span> <span class="err">{</span> <span class="k">ROWS</span> <span class="o">|</span> <span class="n">RANGE</span> <span class="err">}</span> <span class="k">BETWEEN</span> <span class="n">frame_start</span> <span class="k">AND</span> <span class="n">frame_end</span> <span class="p">]</span> <span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>其中包括以下可选项：</p>
@@ -203,48 +203,97 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT dealer_id, emp_name, sales,
-       ROW_NUMBER() OVER (PARTITION BY dealer_id ORDER BY sales) AS rank,
-       AVG(sales) OVER (PARTITION BY dealer_id) AS avgsales 
-FROM sales
+<pre class="chroma"><code class="language-SQL" data-lang="SQL"><span class="k">SELECT</span> <span class="n">dealer_id</span><span class="p">,</span> <span class="n">emp_name</span><span class="p">,</span> <span class="n">sales</span><span class="p">,</span>
+       <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dealer_id</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sales</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rank</span><span class="p">,</span>
+       <span class="k">AVG</span><span class="p">(</span><span class="n">sales</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dealer_id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avgsales</span> 
+<span class="k">FROM</span> <span class="n">sales</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>上述查询中，<code>rank</code> 列表示在当前经销商下，该雇员的销售排名；<code>avgsales</code> 表示当前经销商下所有雇员的平均销售额。查询结果如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">+------------+-----------------+--------+------+---------------+
-| dealer_id  | emp_name        | sales  | rank | avgsales      |
-+------------+-----------------+--------+------+---------------+
-| 1          | Raphael Hull    | 8227   | 1    | 14356         |
-| 1          | Jack Salazar    | 9710   | 2    | 14356         |
-| 1          | Ferris Brown    | 19745  | 3    | 14356         |
-| 1          | Noel Meyer      | 19745  | 4    | 14356         |
-| 2          | Haviva Montoya  | 9308   | 1    | 13924         |
-| 2          | Beverly Lang    | 16233  | 2    | 13924         |
-| 2          | Kameko French   | 16233  | 3    | 13924         |
-| 3          | May Stout       | 9308   | 1    | 12368         |
-| 3          | Abel Kim        | 12369  | 2    | 12368         |
-| 3          | Ursa George     | 15427  | 3    | 12368         |
-+------------+-----------------+--------+------+---------------+
-</code></pre></td></tr></table>
-</div>
-</div><blockquote>
+<table>
+<thead>
+<tr>
+<th align="right">dealer_id</th>
+<th>emp_name</th>
+<th align="right">sales</th>
+<th align="right">rank</th>
+<th align="right">avgsales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td>Raphael Hull</td>
+<td align="right">8227</td>
+<td align="right">1</td>
+<td align="right">14356</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td>Jack Salazar</td>
+<td align="right">9710</td>
+<td align="right">2</td>
+<td align="right">14356</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td>Ferris Brown</td>
+<td align="right">19745</td>
+<td align="right">3</td>
+<td align="right">14356</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td>Noel Meyer</td>
+<td align="right">19745</td>
+<td align="right">4</td>
+<td align="right">14356</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>Haviva Montoya</td>
+<td align="right">9308</td>
+<td align="right">1</td>
+<td align="right">13924</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>Beverly Lang</td>
+<td align="right">16233</td>
+<td align="right">2</td>
+<td align="right">13924</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>Kameko French</td>
+<td align="right">16233</td>
+<td align="right">3</td>
+<td align="right">13924</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td>May Stout</td>
+<td align="right">9308</td>
+<td align="right">1</td>
+<td align="right">12368</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td>Abel Kim</td>
+<td align="right">12369</td>
+<td align="right">2</td>
+<td align="right">12368</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td>Ursa George</td>
+<td align="right">15427</td>
+<td align="right">3</td>
+<td align="right">12368</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
 <p>注：语法中每个部分都是可选的：</p>
 <ul>
 <li>如果不指定 <code>PARTITION BY</code>，则不对数据进行分区；换句话说，所有数据看作同一个分区</li>
@@ -268,7 +317,7 @@ FROM sales
 <p>注：Frame 定义并非所有窗口函数都适用，比如 <code>ROW_NUMBER()</code>、<code>RANK()</code>、<code>LEAD()</code> 等。这些函数总是应用于整个分区，而非当前 Frame。</p>
 </blockquote>
 <h2 id="窗口函数-vs-聚合函数">窗口函数 VS. 聚合函数</h2>
-<p>从<em>聚合</em>这个意义上出发，似乎窗口函数和 Group By 聚合函数都能做到同样的事情。但是，它们之间的相似点也仅限于此了！这其中的关键区别在于：<strong>窗口函数仅仅只会将结果附加到当前的结果上，它不会对已有的行或列做任何修改</strong>。而 Group By 的做法完全不同：对于各个 Group 它仅仅会保留一行聚合结果。</p>
+<p>从聚合这个意义上出发，似乎窗口函数和 Group By 聚合函数都能做到同样的事情。但是，它们之间的相似点也仅限于此了！这其中的关键区别在于：<strong>窗口函数仅仅只会将结果附加到当前的结果上，它不会对已有的行或列做任何修改</strong>。而 Group By 的做法完全不同：对于各个 Group 它仅仅会保留一行聚合结果。</p>
 <p>有的读者可能会问，加了窗口函数之后返回结果的顺序明显发生了变化，这不算一种修改吗？因为 SQL 及关系代数都是以 multi-set 为基础定义的，<strong>结果集本身并没有顺序可言</strong>，<code>ORDER BY</code> 仅仅是最终呈现结果的顺序。</p>
 <p>另一方面，从逻辑语义上说，SELECT 语句的各个部分可以看作是按以下顺序“执行”的：</p>
 <p><img src="https://ericfu.me/images/2019/08/sql-logical-evaluate-order.png" alt="Figure 3. SQL 各部分的逻辑执行顺序">Figure 3. SQL 各部分的逻辑执行顺序</p>
@@ -296,8 +345,8 @@ FROM sales
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">... ROW_NUMBER() OVER (PARTITION BY dealer_id ORDER BY sales) AS rank,
-    AVG(sales) OVER (PARTITION BY dealer_id) AS avgsales ...
+<pre class="chroma"><code class="language-SQL" data-lang="SQL"><span class="p">...</span> <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dealer_id</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sales</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rank</span><span class="p">,</span>
+    <span class="k">AVG</span><span class="p">(</span><span class="n">sales</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dealer_id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avgsales</span> <span class="p">...</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>虽然这 2 个窗口并非完全一致，但是 <code>AVG(sales)</code> 不关心分区内的顺序，完全可以复用 <code>ROW_NUMBER()</code> 的窗口。<a href="http://vldb.org/pvldb/vol5/p1244_yucao_vldb2012.pdf">这篇论文</a> 提供了一种启发式的算法，能尽可能利用能够复用的机会。</p>
@@ -345,7 +394,11 @@ FROM sales
           <a href="/hugo-blog/tags/sql/">SQL</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%91%A8%E5%BF%97%E5%8D%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[笔记] 周志华《机器学习》笔记</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/hugo-blog/post/2020-10-01-%E7%AC%94%E8%AE%B0-sql-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/">
             <span class="next-text nav-default">[笔记] SQL 窗口函数总结</span>
             <span class="next-text nav-mobile">下一篇</span>

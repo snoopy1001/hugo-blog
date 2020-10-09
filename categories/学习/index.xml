@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>Yang Xu</copyright>
-    <lastBuildDate>Thu, 08 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://xy19950225.github.io/hugo-blog/categories/%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[笔记] 周志华《机器学习》笔记</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%91%A8%E5%BF%97%E5%8D%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%91%A8%E5%BF%97%E5%8D%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>全书共 16 章，大致分为机器学习基础、机器学习方法、机器学习进阶三个部分。 一. 机器学习基础 第 1~3 章 二. 机器学习方法 第 4~10 章 决策树、神经网络、支持向量</description>
+    </item>
     
     <item>
       <title>[转载] SQL 窗口函数的优化和执行</title>
@@ -18,7 +27,7 @@
       <pubDate>Thu, 08 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-08-%E8%BD%AC%E8%BD%BD-sql-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0%E7%9A%84%E4%BC%98%E5%8C%96%E5%92%8C%E6%89%A7%E8%A1%8C/</guid>
-      <description>来源：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添</description>
+      <description>原址：Eric Fu 的博客 窗口函数（Window Function）是 SQL2003 标准中定义的一项新特性，并在 SQL2011、SQL2016 中又加以完善，添</description>
     </item>
     
     <item>
@@ -27,7 +36,7 @@
       <pubDate>Thu, 01 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-01-%E7%AC%94%E8%AE%B0-sql-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/</guid>
-      <description>学习重点 窗口函数可以进行排序、生成序列号等一般的聚合函数无法实现的高级操作 理解 PARTITION BY 和 ORDER BY 这两个关键字的含义 1. 窗口函数的简介 窗口函数：也称为 OLAP</description>
+      <description>重点 窗口函数和聚合函数的区别 PARTITION BY 和 ORDER BY 关键字 1. 窗口函数的简介 窗口函数：也称为 OLAP 函数，将表以窗口为单位进行分割，并在其中进行排序 OLAP ： OnLine Analytical Processing 的简</description>
     </item>
     
     <item>
@@ -36,7 +45,7 @@
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://xy19950225.github.io/hugo-blog/post/2020-09-07-%E7%AC%94%E8%AE%B0-sql-%E5%8A%9B%E6%89%A3%E7%BB%83%E4%B9%A0/</guid>
-      <description>1. 简单 176 第二高的薪水 题目描述 编写一个 SQL 查询，获取 Employee 表中第二高的薪水（Salary） Id Salary 1 100 2 200 3 300 例如上述 Employee 表，SQL 查询应该返回 200 作为第二</description>
+      <description>1. 简单 链接 176 第二高的薪水 题目描述 编写一个 SQL 查询，获取 Employee 表中第二高的薪水（Salary） Id Salary 1 100 2 200 3 300 例如上述 Employee 表，SQL 查询应该返回 200 作为</description>
     </item>
     
   </channel>

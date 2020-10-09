@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>Yang Xu</copyright>
-    <lastBuildDate>Thu, 08 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://xy19950225.github.io/hugo-blog/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://xy19950225.github.io/hugo-blog/tags/machine-learning/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>图书</title>
+      <link>https://xy19950225.github.io/hugo-blog/tags/%E5%9B%BE%E4%B9%A6/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/tags/%E5%9B%BE%E4%B9%A6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据挖掘</title>
+      <link>https://xy19950225.github.io/hugo-blog/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>SQL</title>
@@ -63,6 +90,15 @@
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://xy19950225.github.io/hugo-blog/tags/%E8%B1%86%E7%93%A3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LeeCode</title>
+      <link>https://xy19950225.github.io/hugo-blog/tags/leecode/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/tags/leecode/</guid>
       <description></description>
     </item>
     
