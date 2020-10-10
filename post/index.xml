@@ -54,7 +54,7 @@
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://xy19950225.github.io/hugo-blog/post/2020-09-07-%E7%AC%94%E8%AE%B0-sql-%E5%8A%9B%E6%89%A3%E7%BB%83%E4%B9%A0/</guid>
-      <description>1. 简单 链接 176 第二高的薪水 题目描述 编写一个 SQL 查询，获取 Employee 表中第二高的薪水（Salary） Id Salary 1 100 2 200 3 300 例如上述 Employee 表，SQL 查询应该返回 200 作为</description>
+      <description>1. 简单 链接 176. 第二高的薪水 题目描述 编写一个 SQL 查询，获取 Employee 表中第二高的薪水（Salary） Id Salary 1 100 2 200 3 300 例如上述 Employee 表，SQL 查询应该返回 200 作为</description>
     </item>
     
   </channel>
