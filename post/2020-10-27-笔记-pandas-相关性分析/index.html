@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[笔记] pandas 相关性分析 - Yang Xu&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Yang Xu" /><meta name="description" content="介绍 在数据分析时，经常会针对两个变量进行相关性分析。在 Python 中的常用方法是 pandas 的 corr() 方法和 scatter_matrix 方法 。 方法 说明 pandas.DataFrame.corr() 计算每列两两之间的相似度，返回 DataFrame pandas.Series.corr() 计算该" /><meta name="keywords" content="生活, 学习, 工作" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/hugo-blog/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/hugo-blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/hugo-blog/favicon-16x16.png">
+<link rel="manifest" href="/hugo-blog/manifest.json">
+<link rel="mask-icon" href="/hugo-blog/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/hugo-blog/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="[笔记] pandas 相关性分析" />
+<meta property="og:description" content="介绍 在数据分析时，经常会针对两个变量进行相关性分析。在 Python 中的常用方法是 pandas 的 corr() 方法和 scatter_matrix 方法 。 方法 说明 pandas.DataFrame.corr() 计算每列两两之间的相似度，返回 DataFrame pandas.Series.corr() 计算该" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90/" />
+<meta property="article:published_time" content="2020-10-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-27T00:00:00+00:00" />
+<meta itemprop="name" content="[笔记] pandas 相关性分析">
+<meta itemprop="description" content="介绍 在数据分析时，经常会针对两个变量进行相关性分析。在 Python 中的常用方法是 pandas 的 corr() 方法和 scatter_matrix 方法 。 方法 说明 pandas.DataFrame.corr() 计算每列两两之间的相似度，返回 DataFrame pandas.Series.corr() 计算该">
+<meta itemprop="datePublished" content="2020-10-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-10-27T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2037">
+
+
+
+<meta itemprop="keywords" content="Python,pandas,相关性分析," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[笔记] pandas 相关性分析"/>
+<meta name="twitter:description" content="介绍 在数据分析时，经常会针对两个变量进行相关性分析。在 Python 中的常用方法是 pandas 的 corr() 方法和 scatter_matrix 方法 。 方法 说明 pandas.DataFrame.corr() 计算每列两两之间的相似度，返回 DataFrame pandas.Series.corr() 计算该"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/hugo-blog/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/hugo-blog/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/hugo-blog/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/hugo-blog/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/hugo-blog/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/about/">关于</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[笔记] pandas 相关性分析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-10-27 </span>
+        <div class="post-category">
+            <a href="/hugo-blog/categories/python/"> Python </a>
+            </div>
+          <span class="more-meta"> 约 2037 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#参数说明">参数说明</a></li>
+        <li><a href="#官方示例">官方示例</a></li>
+        <li><a href="#测试">测试</a></li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>在数据分析时，经常会针对两个变量进行相关性分析。在 Python 中的常用方法是 pandas 的 corr() 方法和 <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.scatter_matrix.html">scatter_matrix</a> 方法 。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pandas.DataFrame.corr()</td>
+<td>计算每列两两之间的相似度，返回 DataFrame</td>
+</tr>
+<tr>
+<td>pandas.Series.corr()</td>
+<td>计算该序列与传入的序列之间的相关度，返回一个数值型，大小为相关度</td>
+</tr>
+<tr>
+<td>pandas.plotting.scatter_matrix()</td>
+<td>绘制特征间相关关系的散点图矩阵图</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参数说明">参数说明</h2>
+<p>pandas.corr()  方法</p>
+<p>我们以 pandas.DataFrame.corr() 为例进行详细说明。</p>
+<p>一般形式为 <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.corr.html">DataFrame.corr(method=’pearson’, min_periods=1)</a></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>method</td>
+<td>指定相关系数的计算方式，可选性为：{‘pearson’,‘kendall’,‘spearman’}</td>
+</tr>
+<tr>
+<td>min_periods</td>
+<td>int, optional，指定每列所需的最小观察数，可选，目前仅适用于 pearson 和 spearman 方法</td>
+</tr>
+</tbody>
+</table>
+<p>线性相关关系通常采用皮尔逊（Pearson）相关系数r来度量连续变量之间线性相关强度</p>
+<ul>
+<li>r&gt;0：线性正相关</li>
+<li>r&lt;0：线性负相关</li>
+<li>r=0：两个变量之间不存在线性关系（并不代表两个变量之间不存在任何关系）</li>
+</ul>
+<p>线性相关系数|r|的取值范围：</p>
+<ul>
+<li>低度相关：0 &lt;= |r| &lt;= 0.3</li>
+<li>中度相关：0.3 &lt;= |r| &lt;= 0.8</li>
+<li>高度相关：0.8 &lt;= |r| &lt;= 1</li>
+</ul>
+<p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.scatter_matrix.html">pandas.plotting.scatter_matrix</a> 方法</p>
+<p>一般形式为 pandas.plotting.scatter_matrix(frame, alpha=0.5, figsize=None, ax=None, grid=False, diagonal='hist&rsquo;, marker=&rsquo;.', density_kwds=None, hist_kwds=None, range_padding=0.05, **kwargs)</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>frame</td>
+<td>(DataFrame)，DataFrame对象</td>
+</tr>
+<tr>
+<td>alpha</td>
+<td>(float, 可选)， 图像透明度，一般取(0,1]</td>
+</tr>
+<tr>
+<td>figsize</td>
+<td>((float,float), 可选)，以英寸为单位的图像大小，一般以元组 (width, height) 形式设置</td>
+</tr>
+<tr>
+<td>ax</td>
+<td>(Matplotlib axis object, 可选)，一般取None</td>
+</tr>
+<tr>
+<td>diagonal</td>
+<td>({‘hist’, ‘kde’})，必须且只能在{‘hist’, ‘kde’}中选择1个，’hist’表示直方图(Histogram  plot),’kde’表示核密度估计(Kernel Density  Estimation)；该参数是scatter_matrix函数的关键参数，下文将做进一步介绍</td>
+</tr>
+<tr>
+<td><a href="https://matplotlib.org/api/markers_api.html">marker</a></td>
+<td>(str, 可选)， Matplotlib可用的标记类型，如’.’，’,’，’o’等</td>
+</tr>
+<tr>
+<td>density_kwds</td>
+<td>(other plotting keyword arguments，可选)，与kde相关的字典参数</td>
+</tr>
+<tr>
+<td>hist_kwds</td>
+<td>(other plotting keyword arguments，可选)，与hist相关的字典参数</td>
+</tr>
+<tr>
+<td>range_padding</td>
+<td>(float, 可选)，图像在x轴、y轴原点附近的留白(padding)，该值越大，留白距离越大，图像远离坐标原点</td>
+</tr>
+<tr>
+<td>kwds</td>
+<td>(other plotting keyword arguments，可选)，与scatter_matrix函数本身相关的字典参数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="官方示例">官方示例</h2>
+<p>链接： <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.corr.html">pandas.DataFrame.corr</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">histogram_intersection</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="o">...</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">...</span>     <span class="k">return</span> <span class="n">v</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">)],</span>
+<span class="o">...</span>                   <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dogs&#39;</span><span class="p">,</span> <span class="s1">&#39;cats&#39;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">histogram_intersection</span><span class="p">)</span>
+      <span class="n">dogs</span>  <span class="n">cats</span>
+<span class="n">dogs</span>   <span class="mf">1.0</span>   <span class="mf">0.3</span>
+<span class="n">cats</span>   <span class="mf">0.3</span>   <span class="mf">1.0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>链接：<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.corr.html#pandas.Series.corr">pandas.Series.corr</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">histogram_intersection</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="o">...</span>     <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">...</span>     <span class="k">return</span> <span class="n">v</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s1</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">histogram_intersection</span><span class="p">)</span>
+<span class="mf">0.3</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>链接：<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.scatter_matrix.html">pandas.plotting.scatter_matrix</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">scatter_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="https://pandas.pydata.org/pandas-docs/stable/_images/pandas-plotting-scatter_matrix-1.png" alt="../../_images/pandas-plotting-scatter_matrix-1.png" style="zoom: 150%;" /></p>
+<p>链接：<a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/visualization.html#visualization-scatter-matrix">Scatter matrix plot</a><a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/visualization.html#scatter-matrix-plot">¶</a></p>
+<p>我们可以使用 <code>pandas.plotting</code> 中的 <code>scatter_matrix</code>  方法创建散点图矩阵：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">In</span> <span class="p">[</span><span class="mi">83</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">pandas.plotting</span> <span class="kn">import</span> <span class="n">scatter_matrix</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">84</span><span class="p">]:</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">85</span><span class="p">]:</span> <span class="n">scatter_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">diagonal</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>结果输出如下：</p>
+<p><img src="https://pandas.pydata.org/pandas-docs/stable/_images/scatter_matrix_kde.png" alt="../_images/scatter_matrix_kde.png"></p>
+<h2 id="测试">测试</h2>
+<p>我们将以 <strong>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, 2nd Edition</strong> 一书部分代码进行测试。</p>
+<p>原书 GitHub 链接： <a href="https://github.com/ageron/handson-ml2/blob/master/README.md">https://github.com/ageron/handson-ml2/blob/master/README.md</a></p>
+<p>原书 Jupyter 链接：https://nbviewer.jupyter.org/github/ageron/handson-ml2/tree/master/ <strong># 推荐</strong></p>
+<p>其中文翻译的 GitHub 链接：https://github.com/DeqianBai/Hands-on-Machine-Learning <strong># 推荐</strong></p>
+<p>缘由：第二章使用 Scikit-Learn 全程跟踪一个端到端的机器学习项目的例子，以较系统的方式入门机器学习，<a href="https://nbviewer.jupyter.org/github/ageron/handson-ml2/blob/master/02_end_to_end_machine_learning_project.ipynb"><strong>Chapter 2 – End-to-end Machine Learning project</strong></a></p>
+<p>主要参考链接 <a href="https://github.com/DeqianBai/Hands-on-Machine-Learning/blob/master/02_Housing.ipynb">3.2 Looking for Correlations - 寻找相关性</a></p>
+<p><strong>最后向原作者和译者致谢</strong>！</p>
+<p><strong>以下进入正文：</strong></p>
+<p>由于数据集不是太大，我们可以使用 <strong>corr（）</strong> 方法轻松计算每对属性之间的标准相关性系数（也称为Pearson’s）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">housing</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<span class="n">corr_matrix</span> 
+</code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>longitude</th>
+      <td>1.000000</td>
+      <td>-0.924664</td>
+      <td>-0.108197</td>
+      <td>0.044568</td>
+      <td>0.069608</td>
+      <td>0.099773</td>
+      <td>0.055310</td>
+      <td>-0.015176</td>
+      <td>-0.045967</td>
+    </tr>
+    <tr>
+      <th>latitude</th>
+      <td>-0.924664</td>
+      <td>1.000000</td>
+      <td>0.011173</td>
+      <td>-0.036100</td>
+      <td>-0.066983</td>
+      <td>-0.108785</td>
+      <td>-0.071035</td>
+      <td>-0.079809</td>
+      <td>-0.144160</td>
+    </tr>
+    <tr>
+      <th>housing_median_age</th>
+      <td>-0.108197</td>
+      <td>0.011173</td>
+      <td>1.000000</td>
+      <td>-0.361262</td>
+      <td>-0.320451</td>
+      <td>-0.296244</td>
+      <td>-0.302916</td>
+      <td>-0.119034</td>
+      <td>0.105623</td>
+    </tr>
+    <tr>
+      <th>total_rooms</th>
+      <td>0.044568</td>
+      <td>-0.036100</td>
+      <td>-0.361262</td>
+      <td>1.000000</td>
+      <td>0.930380</td>
+      <td>0.857126</td>
+      <td>0.918484</td>
+      <td>0.198050</td>
+      <td>0.134153</td>
+    </tr>
+    <tr>
+      <th>total_bedrooms</th>
+      <td>0.069608</td>
+      <td>-0.066983</td>
+      <td>-0.320451</td>
+      <td>0.930380</td>
+      <td>1.000000</td>
+      <td>0.877747</td>
+      <td>0.979728</td>
+      <td>-0.007723</td>
+      <td>0.049686</td>
+    </tr>
+    <tr>
+      <th>population</th>
+      <td>0.099773</td>
+      <td>-0.108785</td>
+      <td>-0.296244</td>
+      <td>0.857126</td>
+      <td>0.877747</td>
+      <td>1.000000</td>
+      <td>0.907222</td>
+      <td>0.004834</td>
+      <td>-0.024650</td>
+    </tr>
+    <tr>
+      <th>households</th>
+      <td>0.055310</td>
+      <td>-0.071035</td>
+      <td>-0.302916</td>
+      <td>0.918484</td>
+      <td>0.979728</td>
+      <td>0.907222</td>
+      <td>1.000000</td>
+      <td>0.013033</td>
+      <td>0.065843</td>
+    </tr>
+    <tr>
+      <th>median_income</th>
+      <td>-0.015176</td>
+      <td>-0.079809</td>
+      <td>-0.119034</td>
+      <td>0.198050</td>
+      <td>-0.007723</td>
+      <td>0.004834</td>
+      <td>0.013033</td>
+      <td>1.000000</td>
+      <td>0.688075</td>
+    </tr>
+    <tr>
+      <th>median_house_value</th>
+      <td>-0.045967</td>
+      <td>-0.144160</td>
+      <td>0.105623</td>
+      <td>0.134153</td>
+      <td>0.049686</td>
+      <td>-0.024650</td>
+      <td>0.065843</td>
+      <td>0.688075</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>查看每个属性与房屋中值的相关程度</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">corr_matrix</span><span class="p">[</span><span class="s2">&#34;median_house_value&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">median_house_value</span>    <span class="mf">1.000000</span>
+<span class="n">median_income</span>         <span class="mf">0.688075</span>
+<span class="n">total_rooms</span>           <span class="mf">0.134153</span>
+<span class="n">housing_median_age</span>    <span class="mf">0.105623</span>
+<span class="n">households</span>            <span class="mf">0.065843</span>
+<span class="n">total_bedrooms</span>        <span class="mf">0.049686</span>
+<span class="n">population</span>           <span class="o">-</span><span class="mf">0.024650</span>
+<span class="n">longitude</span>            <span class="o">-</span><span class="mf">0.045967</span>
+<span class="n">latitude</span>             <span class="o">-</span><span class="mf">0.144160</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">median_house_value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>注意</strong>：</p>
+<ol>
+<li>相关系数<strong>仅测量线性相关</strong>（“如果x上升，则y通常上升/下降”）。<strong>它可能完全错过非线性关系</strong>（例如，“如果x接近零，那么y通常会上升”）。</li>
+<li>注意底行的所有图都具有<strong>等于零</strong>的相关系数，尽管它们的轴明显不是独立的：这些是<strong>非线性关系</strong>的例子。</li>
+<li>此外，第二行示出了相关系数等于1或-1的示例; 请注意，这与<strong>斜率</strong>无关。例如，你的身高以英寸为单位，与以英尺或纳米为单位的身高相关系数为1。</li>
+</ol>
+<p>检查属性之间相关性的另一种方法是使用 pandas 的 <strong>scatter_matrix</strong> 方法，它画出每个数字属性与其他数字属性之间的相关性。这里有 11 个属性，所以共有 121 个图会被画出来，由于屏幕限制，我们这里只关注一些看似与房价中位数最相关的有希望的属性。</p>
+<p>根据上面运行的结果，与房价中位数相关性较高的前三名是：</p>
+<ul>
+<li>median_income</li>
+<li>total_rooms</li>
+<li>housing_median_age</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;median_house_value&#34;</span><span class="p">,</span> <span class="s2">&#34;median_income&#34;</span><span class="p">,</span> <span class="s2">&#34;total_rooms&#34;</span><span class="p">,</span> <span class="s2">&#34;housing_median_age&#34;</span><span class="p">]</span>
+<span class="n">scatter_matrix</span><span class="p">(</span><span class="n">housing</span><span class="p">[</span><span class="n">attributes</span><span class="p">],</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="https://s1.ax1x.com/2020/10/28/B1dh01.png" alt="output 3 0"></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li>pandas.DataFrame.corr <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.corr.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.corr.html</a></li>
+<li>pandas.Series.corr  <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.corr.html#pandas.Series.corr">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.corr.html#pandas.Series.corr</a></li>
+<li>pandas.plotting.scatter_matrix <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.scatter_matrix.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.scatter_matrix.html</a></li>
+<li>Scatter matrix plot <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/visualization.html#visualization-scatter-matrix">https://pandas.pydata.org/pandas-docs/stable/user_guide/visualization.html#visualization-scatter-matrix</a></li>
+<li>Plotting a diagonal correlation matrix <a href="http://seaborn.pydata.org/examples/many_pairwise_correlations.html">http://seaborn.pydata.org/examples/many_pairwise_correlations.html</a></li>
+<li>pandas.DataFrameの各列間の相関係数を算出、ヒートマップで可視化 <a href="https://note.nkmk.me/python-pandas-corr/">https://note.nkmk.me/python-pandas-corr/</a></li>
+<li>使用Python进行相关性分析 <a href="https://www.biaodianfu.com/python-correlation-analysis.html">https://www.biaodianfu.com/python-correlation-analysis.html</a></li>
+<li>Scatter Matrices using pandas <a href="https://benalexkeen.com/scatter-matrices-using-pandas/">https://benalexkeen.com/scatter-matrices-using-pandas/</a></li>
+<li>pandas绘制矩阵散点图（scatter_matrix）的方法 <a href="https://www.shuzhiduo.com/A/WpdKQOPZJV/">https://www.shuzhiduo.com/A/WpdKQOPZJV/</a></li>
+<li>多视图多类别散点图的利用集合覆盖优化的数据采样 <a href="http://vis.pku.edu.cn/blog/datasamplingmvmc/">http://vis.pku.edu.cn/blog/datasamplingmvmc/</a></li>
+<li>California Housing Price <a href="https://github.com/DeqianBai/Hands-on-Machine-Learning/blob/master/02_Housing.ipynb">https://github.com/DeqianBai/Hands-on-Machine-Learning/blob/master/02_Housing.ipynb</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Yang Xu</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-10-27
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/hugo-blog/tags/python/">Python</a>
+          <a href="/hugo-blog/tags/pandas/">pandas</a>
+          <a href="/hugo-blog/tags/%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90/">相关性分析</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%BB%A4%E9%99%A4%E7%BC%BA%E5%A4%B1%E5%80%BC/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[笔记] pandas 滤除缺失值</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%88%86%E5%B1%82%E6%8A%BD%E6%A0%B7/">
+            <span class="next-text nav-default">[笔记] sklearn 分层抽样</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://space.bilibili.com/151549281/favlist" class="iconfont icon-bilibili" title="bilibili"></a>
+      <a href="https://www.douban.com/people/174007085/" class="iconfont icon-douban" title="douban"></a>
+      <a href="jwzzy19950225@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/xy19950225" class="iconfont icon-github" title="github"></a>
+  <a href="https://xy19950225.github.io/hugo-blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>Yang Xu</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script><script></script><script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/hugo-blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

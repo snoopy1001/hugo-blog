@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>缺失值 on Yang Xu&#39;s Blog</title>
+    <link>https://xy19950225.github.io/hugo-blog/tags/%E7%BC%BA%E5%A4%B1%E5%80%BC/</link>
+    <description>Recent content in 缺失值 on Yang Xu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>Yang Xu</copyright>
+    <lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xy19950225.github.io/hugo-blog/tags/%E7%BC%BA%E5%A4%B1%E5%80%BC/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[笔记] pandas 填充缺失值</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/</guid>
+      <description>介绍 我们可能不想滤除缺失值（有可能会丢弃跟它有关的其他数据），而是希望通过其他方式进行填补。对于大多数情况而言，最主要的方法是 fillna。</description>
+    </item>
+    
+    <item>
+      <title>[笔记] pandas 查看缺失值</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%9F%A5%E7%9C%8B%E7%BC%BA%E5%A4%B1%E5%80%BC/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%9F%A5%E7%9C%8B%E7%BC%BA%E5%A4%B1%E5%80%BC/</guid>
+      <description>官方示例 pandas.DataFrame.isnull Show which entries in a DataFrame are NA. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &amp;gt;&amp;gt;&amp;gt; df = pd.DataFrame({&amp;#39;age&amp;#39;: [5, 6, np.NaN], ... &amp;#39;born&amp;#39;: [pd.NaT, pd.Timestamp(&amp;#39;1939-05-27&amp;#39;), ... pd.Timestamp(&amp;#39;1940-04-25&amp;#39;)], ... &amp;#39;name&amp;#39;: [&amp;#39;Alfred&amp;#39;, &amp;#39;Batman&amp;#39;, &amp;#39;&amp;#39;], ... &amp;#39;toy&amp;#39;: [None, &amp;#39;Batmobile&amp;#39;, &amp;#39;Joker&amp;#39;]}) &amp;gt;&amp;gt;&amp;gt; df age born name toy 0 5.0 NaT Alfred None 1 6.0 1939-05-27 Batman Batmobile 2 NaN 1940-04-25</description>
+    </item>
+    
+    <item>
+      <title>[笔记] pandas 滤除缺失值</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%BB%A4%E9%99%A4%E7%BC%BA%E5%A4%B1%E5%80%BC/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%BB%A4%E9%99%A4%E7%BC%BA%E5%A4%B1%E5%80%BC/</guid>
+      <description>介绍 pandas 滤除缺失值的办法有很多种，我们可以通过 pandas.isnull 或布尔索引的手工方法，但 dropna 可能会更实用一些。 pandas.DataFrame.dropna() 方法通过丢弃包含空值的行或列，从 DataFrame 中删除缺失值。</description>
+    </item>
+    
+    <item>
+      <title>[笔记] sklearn 填充缺失值</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/</guid>
+      <description>介绍 SimpleImputer 类提供了估算缺失值的基本策略。缺失值可以用提供的常量值来计算， 或使用缺失值所在的每一列的统计数据(平均值、中位数或最频繁)。该类还允许</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[笔记] pandas 填充缺失值 - Yang Xu&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Yang Xu" /><meta name="description" content="介绍 我们可能不想滤除缺失值（有可能会丢弃跟它有关的其他数据），而是希望通过其他方式进行填补。对于大多数情况而言，最主要的方法是 fillna。" /><meta name="keywords" content="生活, 学习, 工作" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/hugo-blog/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/hugo-blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/hugo-blog/favicon-16x16.png">
+<link rel="manifest" href="/hugo-blog/manifest.json">
+<link rel="mask-icon" href="/hugo-blog/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/hugo-blog/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="[笔记] pandas 填充缺失值" />
+<meta property="og:description" content="介绍 我们可能不想滤除缺失值（有可能会丢弃跟它有关的其他数据），而是希望通过其他方式进行填补。对于大多数情况而言，最主要的方法是 fillna。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/" />
+<meta property="article:published_time" content="2020-10-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-27T00:00:00+00:00" />
+<meta itemprop="name" content="[笔记] pandas 填充缺失值">
+<meta itemprop="description" content="介绍 我们可能不想滤除缺失值（有可能会丢弃跟它有关的其他数据），而是希望通过其他方式进行填补。对于大多数情况而言，最主要的方法是 fillna。">
+<meta itemprop="datePublished" content="2020-10-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-10-27T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="643">
+
+
+
+<meta itemprop="keywords" content="Python,pandas,缺失值," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[笔记] pandas 填充缺失值"/>
+<meta name="twitter:description" content="介绍 我们可能不想滤除缺失值（有可能会丢弃跟它有关的其他数据），而是希望通过其他方式进行填补。对于大多数情况而言，最主要的方法是 fillna。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/hugo-blog/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/hugo-blog/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/hugo-blog/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/hugo-blog/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/hugo-blog/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/about/">关于</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[笔记] pandas 填充缺失值</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-10-27 </span>
+        <div class="post-category">
+            <a href="/hugo-blog/categories/python/"> Python </a>
+            </div>
+          <span class="more-meta"> 约 643 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#介绍">介绍</a></li>
+        <li><a href="#基本语法">基本语法</a></li>
+        <li><a href="#官方示例">官方示例</a></li>
+        <li><a href="#测试">测试</a></li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="介绍">介绍</h2>
+<p>我们可能不想滤除缺失值（有可能会丢弃跟它有关的其他数据），而是希望通过其他方式进行填补。对于大多数情况而言，最主要的方法是 fillna。</p>
+<p>官方文档 <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.fillna.html">pandas.DataFrame.fillna</a></p>
+<h2 id="基本语法">基本语法</h2>
+<p>DataFrame.fillna(self, value=None, method=None, axis=None, inplace=False, limit=None, downcast=None, **kwargs)</p>
+<p>参数说明</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td><code>scalar</code>、<code>dict</code>、<code>Series</code> 或 <code>DataFrame</code>。用于替换 <code>NaN</code> 的值</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td><code>backfill</code>、<code>bfill</code>、<code>pad</code>、<code>ffill</code> 或 <code>None</code>。用于填充 <code>NaN</code> 值的方法</td>
+</tr>
+<tr>
+<td><code>axis</code></td>
+<td>沿行(<code>axis=0</code>)或列(<code>axis=1</code>)填补缺失的数值</td>
+</tr>
+<tr>
+<td><code>inplace</code></td>
+<td>布尔型。如果为 <code>True</code>，就地修改调用者 <code>DataFrame</code></td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>整数。 如果指定了 <code>method</code>，则是要向前/向后填充的连续 <code>NaN</code> 值的最大数量。 如果没有指定 <code>method</code>，则是要填充的轴的最大 <code>NaN</code> 值数</td>
+</tr>
+<tr>
+<td><code>downcast</code></td>
+<td>字典。指定转换的数据类型</td>
+</tr>
+</tbody>
+</table>
+<p>返回值</p>
+<p>如果 <code>inplace</code> 为 <code>True</code>，则用给定的 <code>value</code> 替换所有 <code>NaN</code> 值的 <code>DataFrame</code>；否则为 <code>None</code>。</p>
+<h2 id="官方示例">官方示例</h2>
+<p>Examples</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="o">...</span>                    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="o">...</span>                    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+<span class="o">...</span>                    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span>
+<span class="o">...</span>                   <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABCD&#39;</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span>
+     <span class="n">A</span>    <span class="n">B</span>   <span class="n">C</span>  <span class="n">D</span>
+<span class="mi">0</span>  <span class="n">NaN</span>  <span class="mf">2.0</span> <span class="n">NaN</span>  <span class="mi">0</span>
+<span class="mi">1</span>  <span class="mf">3.0</span>  <span class="mf">4.0</span> <span class="n">NaN</span>  <span class="mi">1</span>
+<span class="mi">2</span>  <span class="n">NaN</span>  <span class="n">NaN</span> <span class="n">NaN</span>  <span class="mi">5</span>
+<span class="mi">3</span>  <span class="n">NaN</span>  <span class="mf">3.0</span> <span class="n">NaN</span>  <span class="mi">4</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Replace all NaN elements with 0s.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>
+<span class="mi">0</span>   <span class="mf">0.0</span> <span class="mf">2.0</span> <span class="mf">0.0</span> <span class="mi">0</span>
+<span class="mi">1</span>   <span class="mf">3.0</span> <span class="mf">4.0</span> <span class="mf">0.0</span> <span class="mi">1</span>
+<span class="mi">2</span>   <span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mi">5</span>
+<span class="mi">3</span>   <span class="mf">0.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span> <span class="mi">4</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>We can also propagate non-null values forward or backward.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;ffill&#39;</span><span class="p">)</span>
+    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>
+<span class="mi">0</span>   <span class="n">NaN</span> <span class="mf">2.0</span> <span class="n">NaN</span> <span class="mi">0</span>
+<span class="mi">1</span>   <span class="mf">3.0</span> <span class="mf">4.0</span> <span class="n">NaN</span> <span class="mi">1</span>
+<span class="mi">2</span>   <span class="mf">3.0</span> <span class="mf">4.0</span> <span class="n">NaN</span> <span class="mi">5</span>
+<span class="mi">3</span>   <span class="mf">3.0</span> <span class="mf">3.0</span> <span class="n">NaN</span> <span class="mi">4</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Replace all NaN elements in column ‘A’, ‘B’, ‘C’, and ‘D’, with 0, 1, 2, and 3 respectively.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>
+<span class="mi">0</span>   <span class="mf">0.0</span> <span class="mf">2.0</span> <span class="mf">2.0</span> <span class="mi">0</span>
+<span class="mi">1</span>   <span class="mf">3.0</span> <span class="mf">4.0</span> <span class="mf">2.0</span> <span class="mi">1</span>
+<span class="mi">2</span>   <span class="mf">0.0</span> <span class="mf">1.0</span> <span class="mf">2.0</span> <span class="mi">5</span>
+<span class="mi">3</span>   <span class="mf">0.0</span> <span class="mf">3.0</span> <span class="mf">2.0</span> <span class="mi">4</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Only replace the first NaN element.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">A</span>   <span class="n">B</span>   <span class="n">C</span>   <span class="n">D</span>
+<span class="mi">0</span>   <span class="mf">0.0</span> <span class="mf">2.0</span> <span class="mf">2.0</span> <span class="mi">0</span>
+<span class="mi">1</span>   <span class="mf">3.0</span> <span class="mf">4.0</span> <span class="n">NaN</span> <span class="mi">1</span>
+<span class="mi">2</span>   <span class="n">NaN</span> <span class="mf">1.0</span> <span class="n">NaN</span> <span class="mi">5</span>
+<span class="mi">3</span>   <span class="n">NaN</span> <span class="mf">3.0</span> <span class="n">NaN</span> <span class="mi">4</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="测试">测试</h2>
+<h2 id="参考">参考</h2>
+<ul>
+<li>pandas.DataFrame.fillna <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.fillna.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.fillna.html</a></li>
+<li>利用Python进行数据分析_第07章_数据清洗和准备 <a href="https://njuferret.github.io/2018/08/02/python_for_data_analysis/pfda_chap07/">https://njuferret.github.io/2018/08/02/python_for_data_analysis/pfda_chap07/</a></li>
+<li>DataFrame.fillna() 函数 <a href="https://www.delftstack.com/zh/api/python-pandas/pandas-dataframe-dataframe.fillna-function/">https://www.delftstack.com/zh/api/python-pandas/pandas-dataframe-dataframe.fillna-function/</a></li>
+<li>Pandas DataFrame fillna() <a href="https://pythonexamples.org/pandas-dataframe-fillna/">https://pythonexamples.org/pandas-dataframe-fillna/</a> # <a href="https://pythonexamples.org/">Python Examples</a></li>
+<li></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Yang Xu</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-10-27
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/hugo-blog/tags/python/">Python</a>
+          <a href="/hugo-blog/tags/pandas/">pandas</a>
+          <a href="/hugo-blog/tags/%E7%BC%BA%E5%A4%B1%E5%80%BC/">缺失值</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%95%B0%E6%8D%AE%E6%B7%BB%E5%8A%A0%E4%BF%AE%E6%94%B9/">
+            <span class="next-text nav-default">[笔记] pandas 数据添加修改</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://space.bilibili.com/151549281/favlist" class="iconfont icon-bilibili" title="bilibili"></a>
+      <a href="https://www.douban.com/people/174007085/" class="iconfont icon-douban" title="douban"></a>
+      <a href="jwzzy19950225@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/xy19950225" class="iconfont icon-github" title="github"></a>
+  <a href="https://xy19950225.github.io/hugo-blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>Yang Xu</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script><script></script><script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/hugo-blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
