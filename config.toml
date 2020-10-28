@@ -1,7 +1,7 @@
 baseURL = "https://xy19950225.github.io/hugo-blog/"
 languageCode = "zh-cn"
 defaultContentLanguage = "zh-cn"                             # en / zh-cn / ... (This field determines which i18n file to use)
-title = "Keep it Simple and Stupid!"
+title = "Yang Xu's Blog"
 preserveTaxonomyNames = true
 enableRobotsTXT = true
 enableEmoji = true

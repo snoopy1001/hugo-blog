@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[笔记] pandas 查看缺失值 - Yang Xu&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Yang Xu" /><meta name="description" content="官方示例 pandas.DataFrame.isnull Show which entries in a DataFrame are NA. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &amp;gt;&amp;gt;&amp;gt; df = pd.DataFrame({&amp;#39;age&amp;#39;: [5, 6, np.NaN], ... &amp;#39;born&amp;#39;: [pd.NaT, pd.Timestamp(&amp;#39;1939-05-27&amp;#39;), ... pd.Timestamp(&amp;#39;1940-04-25&amp;#39;)], ... &amp;#39;name&amp;#39;: [&amp;#39;Alfred&amp;#39;, &amp;#39;Batman&amp;#39;, &amp;#39;&amp;#39;], ... &amp;#39;toy&amp;#39;: [None, &amp;#39;Batmobile&amp;#39;, &amp;#39;Joker&amp;#39;]}) &amp;gt;&amp;gt;&amp;gt; df age born name toy 0 5.0 NaT Alfred None 1 6.0 1939-05-27 Batman Batmobile 2 NaN 1940-04-25" /><meta name="keywords" content="生活, 学习, 工作" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%9F%A5%E7%9C%8B%E7%BC%BA%E5%A4%B1%E5%80%BC/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/hugo-blog/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/hugo-blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/hugo-blog/favicon-16x16.png">
+<link rel="manifest" href="/hugo-blog/manifest.json">
+<link rel="mask-icon" href="/hugo-blog/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/hugo-blog/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="[笔记] pandas 查看缺失值" />
+<meta property="og:description" content="官方示例 pandas.DataFrame.isnull Show which entries in a DataFrame are NA. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &gt;&gt;&gt; df = pd.DataFrame({&#39;age&#39;: [5, 6, np.NaN], ... &#39;born&#39;: [pd.NaT, pd.Timestamp(&#39;1939-05-27&#39;), ... pd.Timestamp(&#39;1940-04-25&#39;)], ... &#39;name&#39;: [&#39;Alfred&#39;, &#39;Batman&#39;, &#39;&#39;], ... &#39;toy&#39;: [None, &#39;Batmobile&#39;, &#39;Joker&#39;]}) &gt;&gt;&gt; df age born name toy 0 5.0 NaT Alfred None 1 6.0 1939-05-27 Batman Batmobile 2 NaN 1940-04-25" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%9F%A5%E7%9C%8B%E7%BC%BA%E5%A4%B1%E5%80%BC/" />
+<meta property="article:published_time" content="2020-10-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-27T00:00:00+00:00" />
+<meta itemprop="name" content="[笔记] pandas 查看缺失值">
+<meta itemprop="description" content="官方示例 pandas.DataFrame.isnull Show which entries in a DataFrame are NA. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &gt;&gt;&gt; df = pd.DataFrame({&#39;age&#39;: [5, 6, np.NaN], ... &#39;born&#39;: [pd.NaT, pd.Timestamp(&#39;1939-05-27&#39;), ... pd.Timestamp(&#39;1940-04-25&#39;)], ... &#39;name&#39;: [&#39;Alfred&#39;, &#39;Batman&#39;, &#39;&#39;], ... &#39;toy&#39;: [None, &#39;Batmobile&#39;, &#39;Joker&#39;]}) &gt;&gt;&gt; df age born name toy 0 5.0 NaT Alfred None 1 6.0 1939-05-27 Batman Batmobile 2 NaN 1940-04-25">
+<meta itemprop="datePublished" content="2020-10-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-10-27T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="411">
+
+
+
+<meta itemprop="keywords" content="Python,pandas,缺失值," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[笔记] pandas 查看缺失值"/>
+<meta name="twitter:description" content="官方示例 pandas.DataFrame.isnull Show which entries in a DataFrame are NA. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &gt;&gt;&gt; df = pd.DataFrame({&#39;age&#39;: [5, 6, np.NaN], ... &#39;born&#39;: [pd.NaT, pd.Timestamp(&#39;1939-05-27&#39;), ... pd.Timestamp(&#39;1940-04-25&#39;)], ... &#39;name&#39;: [&#39;Alfred&#39;, &#39;Batman&#39;, &#39;&#39;], ... &#39;toy&#39;: [None, &#39;Batmobile&#39;, &#39;Joker&#39;]}) &gt;&gt;&gt; df age born name toy 0 5.0 NaT Alfred None 1 6.0 1939-05-27 Batman Batmobile 2 NaN 1940-04-25"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/hugo-blog/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/hugo-blog/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/hugo-blog/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/hugo-blog/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/hugo-blog/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[笔记] pandas 查看缺失值</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-10-27 </span>
+        <div class="post-category">
+            <a href="/hugo-blog/categories/python/"> Python </a>
+            </div>
+          <span class="more-meta"> 约 411 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#官方示例">官方示例</a></li>
+        <li><a href="#测试">测试</a></li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="官方示例">官方示例</h2>
+<p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.isnull.html">pandas.DataFrame.isnull</a></p>
+<p>Show which entries in a DataFrame are NA.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">],</span>
+<span class="o">...</span>                    <span class="s1">&#39;born&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">NaT</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;1939-05-27&#39;</span><span class="p">),</span>
+<span class="o">...</span>                             <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;1940-04-25&#39;</span><span class="p">)],</span>
+<span class="o">...</span>                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Alfred&#39;</span><span class="p">,</span> <span class="s1">&#39;Batman&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>
+<span class="o">...</span>                    <span class="s1">&#39;toy&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;Batmobile&#39;</span><span class="p">,</span> <span class="s1">&#39;Joker&#39;</span><span class="p">]})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span>
+   <span class="n">age</span>       <span class="n">born</span>    <span class="n">name</span>        <span class="n">toy</span>
+<span class="mi">0</span>  <span class="mf">5.0</span>        <span class="n">NaT</span>  <span class="n">Alfred</span>       <span class="bp">None</span>
+<span class="mi">1</span>  <span class="mf">6.0</span> <span class="mi">1939</span><span class="o">-</span><span class="mo">05</span><span class="o">-</span><span class="mi">27</span>  <span class="n">Batman</span>  <span class="n">Batmobile</span>
+<span class="mi">2</span>  <span class="n">NaN</span> <span class="mi">1940</span><span class="o">-</span><span class="mo">04</span><span class="o">-</span><span class="mi">25</span>              <span class="n">Joker</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+     <span class="n">age</span>   <span class="n">born</span>   <span class="n">name</span>    <span class="n">toy</span>
+<span class="mi">0</span>  <span class="bp">False</span>   <span class="bp">True</span>  <span class="bp">False</span>   <span class="bp">True</span>
+<span class="mi">1</span>  <span class="bp">False</span>  <span class="bp">False</span>  <span class="bp">False</span>  <span class="bp">False</span>
+<span class="mi">2</span>   <span class="bp">True</span>  <span class="bp">False</span>  <span class="bp">False</span>  <span class="bp">False</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Show which entries in a Series are NA.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">ser</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ser</span>
+<span class="mi">0</span>    <span class="mf">5.0</span>
+<span class="mi">1</span>    <span class="mf">6.0</span>
+<span class="mi">2</span>    <span class="n">NaN</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ser</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+<span class="mi">0</span>    <span class="bp">False</span>
+<span class="mi">1</span>    <span class="bp">False</span>
+<span class="mi">2</span>     <span class="bp">True</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="nb">bool</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="测试">测试</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> 
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+                <span class="s2">&#34;Student&#34;</span><span class="p">:[</span><span class="s2">&#34;Hisila&#34;</span><span class="p">,</span> <span class="s2">&#34;Shristi&#34;</span><span class="p">,</span><span class="s2">&#34;Zeppy&#34;</span><span class="p">,</span><span class="s2">&#34;Alina&#34;</span><span class="p">,</span><span class="s2">&#34;Jerry&#34;</span><span class="p">],</span>
+                <span class="s2">&#34;Height&#34;</span><span class="p">:[</span><span class="mf">1.63</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mf">1.4</span><span class="p">],</span>
+                <span class="s2">&#34;Weight&#34;</span><span class="p">:[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">56</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="mi">44</span><span class="p">]</span>
+                <span class="p">})</span>
+
+<span class="n">df</span>
+</code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Student</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hisila</td>
+      <td>1.63</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Shristi</td>
+      <td>1.50</td>
+      <td>56.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Zeppy</td>
+      <td>NaN</td>
+      <td>73.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Alina</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Jerry</td>
+      <td>1.40</td>
+      <td>44.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Student</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Student</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hisila</td>
+      <td>1.63</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Zeppy</td>
+      <td>NaN</td>
+      <td>73.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Alina</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="bp">True</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Student</th>
+      <th>Height</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hisila</td>
+      <td>1.63</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Zeppy</td>
+      <td>NaN</td>
+      <td>73.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Alina</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Alina</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 检查是否存在任何 NaN</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>True
+</code></pre>
+<p>如果 DataFrame 中的任何元素为 <code>NaN</code>，则返回 <code>True</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 检查是否存在任何 NaN</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>4
+</code></pre>
+<p>如果结果大于 0，则表示 DataFrame 中存在 <code>NaN</code></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li>pandas.DataFrame.isnull <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.isnull.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.isnull.html</a></li>
+<li>How to check if any value is NaN in a Pandas DataFrame  <a href="https://stackoverflow.com/questions/24318598/more-idiomatic-version-of-df-isnull-any-any-w-a-pandas-dataframe">https://stackoverflow.com/questions/24318598/more-idiomatic-version-of-df-isnull-any-any-w-a-pandas-dataframe</a></li>
+<li>如何檢查 NaN 是否存在於 Pandas DataFrame 中 <a href="https://www.delftstack.com/zh-tw/howto/python-pandas/how-to-check-if-nan-exisits-in-pandas-dataframe/">https://www.delftstack.com/zh-tw/howto/python-pandas/how-to-check-if-nan-exisits-in-pandas-dataframe/</a> # nice</li>
+<li>利用Python进行数据分析_第07章_数据清洗和准备 <a href="https://njuferret.github.io/2018/08/02/python_for_data_analysis/pfda_chap07/">https://njuferret.github.io/2018/08/02/python_for_data_analysis/pfda_chap07/</a> # 内容全</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Yang Xu</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-10-27
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/hugo-blog/tags/python/">Python</a>
+          <a href="/hugo-blog/tags/pandas/">pandas</a>
+          <a href="/hugo-blog/tags/%E7%BC%BA%E5%A4%B1%E5%80%BC/">缺失值</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[笔记] pandas 填充缺失值</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%BB%A4%E9%99%A4%E7%BC%BA%E5%A4%B1%E5%80%BC/">
+            <span class="next-text nav-default">[笔记] pandas 滤除缺失值</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://space.bilibili.com/151549281/favlist" class="iconfont icon-bilibili" title="bilibili"></a>
+      <a href="https://www.douban.com/people/174007085/" class="iconfont icon-douban" title="douban"></a>
+      <a href="jwzzy19950225@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/xy19950225" class="iconfont icon-github" title="github"></a>
+  <a href="https://xy19950225.github.io/hugo-blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>Yang Xu</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script><script></script><script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/hugo-blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

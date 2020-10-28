@@ -1,34 +1,21 @@
 ---
-title: "关于"
-date: 2020-10-01
-lastmod: 2020-10-08
+title: "About"
+date: 2020-07-27T21:38:52+08:00
+lastmod: 2020-07-27T21:41:52+08:00
 menu: "main"
 weight: 50
 
 ---
 
+Hugo is a static site engine written in Go.
 
 
-![威尼斯, 意大利, 结构, 水, 城市, 欧洲, 旅行, 运河, 船, 浪漫, 旅游, 历史, 威尼斯人](https://cdn.pixabay.com/photo/2020/04/23/14/45/venice-5082785_960_720.jpg)
+It makes use of a variety of open source projects including:
 
+* [Cobra](https://github.com/spf13/cobra)
+* [Viper](https://github.com/spf13/viper)
+* [J Walter Weatherman](https://github.com/spf13/jWalterWeatherman)
+* [Cast](https://github.com/spf13/cast)
 
+Learn more and contribute on [GitHub](https://github.com/gohugoio).
 
-
-
-
-
-> **来啦？**
-
-欢迎来到我的精神角落，
-
-一个极其平凡的人，
-
-推崇简约的生活方式，在轻松的环境中积累和分享！
-
-
-
-> **听听歌！**
-
-
-
-{{% music "21907746" %}}
