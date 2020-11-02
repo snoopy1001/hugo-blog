@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>小技巧 on Yang Xu&#39;s Blog</title>
+    <link>https://xy19950225.github.io/hugo-blog/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+    <description>Recent content in 小技巧 on Yang Xu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>Yang Xu</copyright>
+    <lastBuildDate>Thu, 29 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xy19950225.github.io/hugo-blog/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[笔记] Typora 自动上传图片</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-30-%E7%AC%94%E8%AE%B0-typora-%E8%87%AA%E5%8A%A8%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/</link>
+      <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-30-%E7%AC%94%E8%AE%B0-typora-%E8%87%AA%E5%8A%A8%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/</guid>
+      <description>1 前言 尝试了众多 Markdown 编辑器后，Typora 给我带来了良好的体验，让我更专注于写作。它最大的特点是：所见即所得，无须分屏预览。除此之外，还有很多</description>
+    </item>
+    
+  </channel>
+</rss>

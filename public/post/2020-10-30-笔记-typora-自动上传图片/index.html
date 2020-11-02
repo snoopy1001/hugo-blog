@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[笔记] Typora 自动上传图片 - Yang Xu&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Yang Xu" /><meta name="description" content="1 前言 尝试了众多 Markdown 编辑器后，Typora 给我带来了良好的体验，让我更专注于写作。它最大的特点是：所见即所得，无须分屏预览。除此之外，还有很多" /><meta name="keywords" content="生活, 学习, 工作" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://xy19950225.github.io/hugo-blog/post/2020-10-30-%E7%AC%94%E8%AE%B0-typora-%E8%87%AA%E5%8A%A8%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/hugo-blog/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/hugo-blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/hugo-blog/favicon-16x16.png">
+<link rel="manifest" href="/hugo-blog/manifest.json">
+<link rel="mask-icon" href="/hugo-blog/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/hugo-blog/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="[笔记] Typora 自动上传图片" />
+<meta property="og:description" content="1 前言 尝试了众多 Markdown 编辑器后，Typora 给我带来了良好的体验，让我更专注于写作。它最大的特点是：所见即所得，无须分屏预览。除此之外，还有很多" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xy19950225.github.io/hugo-blog/post/2020-10-30-%E7%AC%94%E8%AE%B0-typora-%E8%87%AA%E5%8A%A8%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" />
+<meta property="article:published_time" content="2020-10-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-29T00:00:00+00:00" />
+<meta itemprop="name" content="[笔记] Typora 自动上传图片">
+<meta itemprop="description" content="1 前言 尝试了众多 Markdown 编辑器后，Typora 给我带来了良好的体验，让我更专注于写作。它最大的特点是：所见即所得，无须分屏预览。除此之外，还有很多">
+<meta itemprop="datePublished" content="2020-10-29T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-10-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="906">
+
+
+
+<meta itemprop="keywords" content="Typora,PicGo,SM 图床," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[笔记] Typora 自动上传图片"/>
+<meta name="twitter:description" content="1 前言 尝试了众多 Markdown 编辑器后，Typora 给我带来了良好的体验，让我更专注于写作。它最大的特点是：所见即所得，无须分屏预览。除此之外，还有很多"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/hugo-blog/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/hugo-blog/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/hugo-blog/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/hugo-blog/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/hugo-blog/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/about/">关于</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[笔记] Typora 自动上传图片</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-10-29 </span>
+        <div class="post-category">
+            <a href="/hugo-blog/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/"> 小技巧 </a>
+            </div>
+          <span class="more-meta"> 约 906 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-前言">1 前言</a></li>
+        <li><a href="#2--picgo-配置">2  PicGo 配置</a>
+          <ul>
+            <li><a href="#21httpspicgogithubiopicgo-core-doczhguideconfightml默认配置文件-默认配置文件"><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">2.1</a> 默认配置文件</a></li>
+            <li><a href="#22httpspicgogithubiopicgo-core-doczhguideconfightml自动生成-自动生成"><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90">2.2</a> 自动生成</a></li>
+            <li><a href="#23httpspicgogithubiopicgo-core-doczhguideconfightml手动生成-手动生成"><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E6%89%8B%E5%8A%A8%E7%94%9F%E6%88%90">2.3</a> 手动生成</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-配合-typora">3 配合 Typora</a></li>
+        <li><a href="#4-总结">4 总结</a></li>
+        <li><a href="#5-参考">5 参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1-前言">1 前言</h2>
+<p>尝试了众多 <strong>Markdown</strong> 编辑器后，<strong>Typora</strong> 给我带来了良好的体验，让我更专注于写作。它最大的特点是：所见即所得，无须分屏预览。除此之外，还有很多优点，这里不做介绍，不是本文的重点。网上有很多相关指导，感兴趣的可以去 <a href="https://www.typora.io/">官网</a> 下载体验 。</p>
+<p>但 <strong>Typora</strong> 还是存在一些不足，比如我经常需要在笔记中<strong>插入图片</strong>，然后将笔记发布到 GitHub 或个人博客。在本地，能很好的看到图片展示。但是发布到网上就比较麻烦了，一般需要手动的上传本地图片到图床，再排版。通过 Google 了解到 **PicGo **插件似乎可以解决我的这个痛点，而在新的版本 Typora 已经支持 PicGo 插件。</p>
+<p>话不多说，下面就来尝试在 Typora 中配置 PicGo。</p>
+<h2 id="2--picgo-配置">2  PicGo 配置</h2>
+<p>PicGo 需要配置文件来启动。当你未指定配置文件的时候，PicGo 将会使用默认配置文件来启动。详细了解相关配置可以查阅官方 <a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">picgo 配置文件</a> ，GitHub 链接： <a href="https://github.com/Molunerfinn/PicGo">https://github.com/Molunerfinn/PicGo</a>。</p>
+<h3 id="21httpspicgogithubiopicgo-core-doczhguideconfightml默认配置文件-默认配置文件"><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">2.1</a> 默认配置文件</h3>
+<p>picgo 的默认配置文件为<code>~/.picgo/config.json</code>。其中<code>~</code>为用户目录。不同系统的用户目录不太一样。</p>
+<p>linux 和 macOS 均为<code>~/.picgo/config.json</code>。</p>
+<p>windows 则为<code>C:\Users\你的用户名、.picgo\config.json</code>。</p>
+<h3 id="22httpspicgogithubiopicgo-core-doczhguideconfightml自动生成-自动生成"><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90">2.2</a> 自动生成</h3>
+<p>通常来说你只需要配置 <code>Uploader</code> 即可，所以你可以通过 <code>picgo set uploader</code> 来进入交互式命令行，配置成功后会自动生成配置文件，无需复制粘贴！其他更多的命令可以参考 <a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/commands.html">CLI 命令</a> 一章。</p>
+<blockquote>
+<p>注意</p>
+<p>同时，填好图床配置之后，请务必通过 <code>picgo use uploader</code> 选择当前要使用的 <code>Uploader</code>。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ picgo <span class="nb">set</span> uploader
+? Choose a<span class="o">(</span>n<span class="o">)</span> uploader <span class="o">(</span>Use arrow keys<span class="o">)</span>
+  smms
+❯ tcyun
+  github
+  qiniu
+  imgur
+  aliyun
+  upyun
+<span class="o">(</span>Move up and down to reveal more choices<span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="23httpspicgogithubiopicgo-core-doczhguideconfightml手动生成-手动生成"><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E6%89%8B%E5%8A%A8%E7%94%9F%E6%88%90">2.3</a> 手动生成</h3>
+<p>如果你要手动生成配置文件，需要自己创建对应的目录、JSON 文件以及至少有如下的配置项（因此还是推荐通过命令行自动生成配置文件）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;picBed&#34;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;uploader&#34;</span><span class="p">:</span> <span class="s2">&#34;smms&#34;</span><span class="p">,</span> <span class="err">//</span> <span class="err">代表当前的默认上传图床为</span> <span class="err">SM.MS,</span>
+    <span class="nt">&#34;smms&#34;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;token&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span> <span class="err">//</span> <span class="err">从</span> <span class="err">https</span><span class="p">:</span><span class="err">//sm.ms/home/apitoken</span> <span class="err">获取的</span> <span class="err">token</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&#34;picgoPlugins&#34;</span><span class="p">:</span> <span class="p">{}</span> <span class="err">//</span> <span class="err">为插件预留</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="3-配合-typora">3 配合 Typora</h2>
+<p>Typora 支持 PicGo，可以自动上传图片。</p>
+<p>在 <code>系统偏好—图像</code> 中，我们能看到这个设置。</p>
+<p>在我们配置好我们的PicGo后，我们可以使用 <code>自动上传</code>我们文章中的图片。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-16fd7708b95630112107127679628b37_1440w.png" alt="img"></p>
+<h2 id="4-总结">4 总结</h2>
+<h2 id="5-参考">5 参考</h2>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000023513698">Typora 完美结合 PicGo，写作体验更佳！</a></li>
+<li><a href="https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">picgo 配置文件</a></li>
+<li><a href="https://sspai.com/post/52527">图床「神器」PicGo v2.0更新，插件系统终于来了</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Yang Xu</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-10-29
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/hugo-blog/tags/typora/">Typora</a>
+          <a href="/hugo-blog/tags/picgo/">PicGo</a>
+          <a href="/hugo-blog/tags/sm-%E5%9B%BE%E5%BA%8A/">SM 图床</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-from_dict/">
+            <span class="next-text nav-default">[笔记] pandas from_dict</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://space.bilibili.com/151549281/favlist" class="iconfont icon-bilibili" title="bilibili"></a>
+      <a href="https://www.douban.com/people/174007085/" class="iconfont icon-douban" title="douban"></a>
+      <a href="jwzzy19950225@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/xy19950225" class="iconfont icon-github" title="github"></a>
+  <a href="https://xy19950225.github.io/hugo-blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>Yang Xu</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script><script></script><script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/hugo-blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

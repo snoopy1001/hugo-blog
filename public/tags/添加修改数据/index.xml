@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>添加修改数据 on Yang Xu&#39;s Blog</title>
+    <link>https://xy19950225.github.io/hugo-blog/tags/%E6%B7%BB%E5%8A%A0%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE/</link>
+    <description>Recent content in 添加修改数据 on Yang Xu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>Yang Xu</copyright>
+    <lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xy19950225.github.io/hugo-blog/tags/%E6%B7%BB%E5%8A%A0%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[笔记] pandas 添加修改数据</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%B7%BB%E5%8A%A0%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-%E6%B7%BB%E5%8A%A0%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE/</guid>
+      <description>前言 以下内容主要来自这篇文章： Pandas 数据添加修改 正文 数据分析过程中，对数据的修改调整也是比较多的，最简单的如学生成绩表加一列把总分算出来。根据某</description>
+    </item>
+    
+  </channel>
+</rss>

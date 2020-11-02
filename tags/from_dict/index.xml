@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>from_dict on Yang Xu&#39;s Blog</title>
+    <link>https://xy19950225.github.io/hugo-blog/tags/from_dict/</link>
+    <description>Recent content in from_dict on Yang Xu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>Yang Xu</copyright>
+    <lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xy19950225.github.io/hugo-blog/tags/from_dict/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[笔记] pandas from_dict</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-from_dict/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-pandas-from_dict/</guid>
+      <description>介绍 官方文档 示例 默认情况下，字典的键成为 DataFrame 的列： 1 2 3 4 5 6 7 &amp;gt;&amp;gt;&amp;gt; data = {&amp;#39;col_1&amp;#39;: [3, 2, 1, 0], &amp;#39;col_2&amp;#39;: [&amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;]} &amp;gt;&amp;gt;&amp;gt; pd.DataFrame.from_dict(data) col_1 col_2 0 3 a 1 2 b 2 1 c 3 0 d 指定 orient=&#39;index&amp;rsquo; 使用字典键作为</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>[笔记] 周志华_机器学习_第01章_绪论 - Yang Xu&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Yang Xu" /><meta name="description" content="傍晚小街路面上沁出微雨后的湿润，和熙的细风吹来，抬头看看天边的晚霞，嗯，明天又是一个好天气。走到水果摊旁，挑了个根蒂蜷缩、敲起来声音浊响的青" /><meta name="keywords" content="生活, 学习, 工作" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://xy19950225.github.io/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%91%A8%E5%BF%97%E5%8D%8E_%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E7%AC%AC01%E7%AB%A0_%E7%BB%AA%E8%AE%BA/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/hugo-blog/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/hugo-blog/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/hugo-blog/favicon-16x16.png">
+<link rel="manifest" href="/hugo-blog/manifest.json">
+<link rel="mask-icon" href="/hugo-blog/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/hugo-blog/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="[笔记] 周志华_机器学习_第01章_绪论" />
+<meta property="og:description" content="傍晚小街路面上沁出微雨后的湿润，和熙的细风吹来，抬头看看天边的晚霞，嗯，明天又是一个好天气。走到水果摊旁，挑了个根蒂蜷缩、敲起来声音浊响的青" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xy19950225.github.io/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%91%A8%E5%BF%97%E5%8D%8E_%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E7%AC%AC01%E7%AB%A0_%E7%BB%AA%E8%AE%BA/" />
+<meta property="article:published_time" content="2020-10-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-09T00:00:00+00:00" />
+<meta itemprop="name" content="[笔记] 周志华_机器学习_第01章_绪论">
+<meta itemprop="description" content="傍晚小街路面上沁出微雨后的湿润，和熙的细风吹来，抬头看看天边的晚霞，嗯，明天又是一个好天气。走到水果摊旁，挑了个根蒂蜷缩、敲起来声音浊响的青">
+<meta itemprop="datePublished" content="2020-10-09T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-10-09T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1440">
+
+
+
+<meta itemprop="keywords" content="西瓜书,周志华,ML," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="[笔记] 周志华_机器学习_第01章_绪论"/>
+<meta name="twitter:description" content="傍晚小街路面上沁出微雨后的湿润，和熙的细风吹来，抬头看看天边的晚霞，嗯，明天又是一个好天气。走到水果摊旁，挑了个根蒂蜷缩、敲起来声音浊响的青"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/hugo-blog/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/hugo-blog/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/hugo-blog/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/hugo-blog/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/hugo-blog/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/hugo-blog/" class="logo">Yang Xu&#39;s Blog</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/hugo-blog/about/">关于</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">[笔记] 周志华_机器学习_第01章_绪论</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-10-09 </span>
+        <div class="post-category">
+            <a href="/hugo-blog/categories/ml/"> ML </a>
+            </div>
+          <span class="more-meta"> 约 1440 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#11-引言">1.1 引言</a></li>
+        <li><a href="#12-基本术语">1.2 基本术语</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>傍晚小街路面上沁出微雨后的湿润，和熙的细风吹来，抬头看看天边的晚霞，嗯，明天又是一个好天气。走到水果摊旁，挑了个根蒂蜷缩、敲起来声音浊响的青绿西瓜，一边满心期待着皮薄肉厚瓢甜的爽落感，一边愉快地想着，这学期狠下了工夫，基础概念弄得清清楚楚，算法作业也是信手拈来，这门课成绩一定差不了！</p>
+<h2 id="11-引言">1.1 引言</h2>
+<p>正如我们根据过去的经验来判断明天的天气，吃货们希望从购买经验中挑选一个好瓜，那能不能让计算机帮助人类来实现这个呢？机器学习正是这样的一门学科，人的“经验”对应计算机中的“数据”，让计算机来学习这些经验数据，生成一个算法模型，在面对新的情况中，计算机便能作出有效的判断，这便是机器学习。</p>
+<p>另一本经典教材的作者Mitchell给出了一个形式化的定义，假设：</p>
+<ul>
+<li>P：计算机程序在某任务类T上的性能。</li>
+<li>T：计算机程序希望实现的任务类。</li>
+<li>E：表示经验，即历史的数据集。</li>
+</ul>
+<p><strong>若该计算机程序通过利用经验E在任务T上获得了性能P的改善，则称该程序对E进行了学习</strong>。</p>
+<h2 id="12-基本术语">1.2 基本术语</h2>
+<p>假设我们收集了一批西瓜的数据，例如：（色泽=青绿;根蒂=蜷缩;敲声=浊响)， (色泽=乌黑;根蒂=稍蜷;敲声=沉闷)， (色泽=浅自;根蒂=硬挺;敲声=清脆)……每对括号内是一个西瓜的记录，定义：</p>
+<ul>
+<li>
+<p>所有记录的集合为：数据集。</p>
+</li>
+<li>
+<p>每一条记录为：一个实例（instance）或样本（sample）。</p>
+</li>
+<li>
+<p>例如：色泽或敲声，单个的特点为特征（feature）或属性（attribute）。</p>
+</li>
+<li>
+<p>对于一条记录，如果在坐标轴上表示，每个西瓜都可以用坐标轴中的一个点表示，一个点也是一个向量，例如（青绿，蜷缩，浊响），即每个西瓜为：一个特征向量（feature vector）。</p>
+</li>
+<li>
+<p>一个样本的特征数为：维数（dimensionality），该西瓜的例子维数为3，当维数非常大时，也就是现在说的“维数灾难”。</p>
+<p>计算机程序学习经验数据生成算法模型的过程中，每一条记录称为一个“训练样本”，同时在训练好模型后，我们希望使用新的样本来测试模型的效果，则每一个新的样本称为一个“测试样本”。定义：</p>
+</li>
+<li>
+<p>所有训练样本的集合为：训练集（trainning set），[特殊]。</p>
+</li>
+<li>
+<p>所有测试样本的集合为：测试集（test set），[一般]。</p>
+</li>
+<li>
+<p>机器学习出来的模型适用于新样本的能力为：泛化能力（generalization），即从特殊到一般。</p>
+<p>西瓜的例子中，我们是想计算机通过学习西瓜的特征数据，训练出一个决策模型，来判断一个新的西瓜是否是好瓜。可以得知我们预测的是：西瓜是好是坏，即好瓜与差瓜两种，是离散值。同样地，也有通过历年的人口数据，来预测未来的人口数量，人口数量则是连续值。定义：</p>
+</li>
+<li>
+<p>预测值为离散值的问题为：分类（classification）。</p>
+</li>
+<li>
+<p>预测值为连续值的问题为：回归（regression）。</p>
+<p>我们预测西瓜是否是好瓜的过程中，很明显对于训练集中的西瓜，我们事先已经知道了该瓜是否是好瓜，学习器通过学习这些好瓜或差瓜的特征，从而总结出规律，即训练集中的西瓜我们都做了标记，称为标记信息。但也有没有标记信息的情形，例如：我们想将一堆西瓜根据特征分成两个小堆，使得某一堆的西瓜尽可能相似，即都是好瓜或差瓜，对于这种问题，我们事先并不知道西瓜的好坏，样本没有标记信息。定义：</p>
+</li>
+<li>
+<p>训练数据有标记信息的学习任务为：监督学习（supervised learning），容易知道上面所描述的分类和回归都是监督学习的范畴。</p>
+</li>
+<li>
+<p>训练数据没有标记信息的学习任务为：无监督学习（unsupervised learning），常见的有聚类和关联规则。</p>
+</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Yang Xu</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-10-09
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/hugo-blog/tags/%E8%A5%BF%E7%93%9C%E4%B9%A6/">西瓜书</a>
+          <a href="/hugo-blog/tags/%E5%91%A8%E5%BF%97%E5%8D%8E/">周志华</a>
+          <a href="/hugo-blog/tags/ml/">ML</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%88%A9%E7%94%A8-python-%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E7%AC%AC-2-%E7%89%88/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[笔记] 利用 Python 进行数据分析·第 2 版</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/hugo-blog/post/2020-10-09-%E7%AC%94%E8%AE%B0-%E5%91%A8%E5%BF%97%E5%8D%8E_%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E7%AC%AC02%E7%AB%A0_%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9/">
+            <span class="next-text nav-default">[笔记] 周志华_机器学习_第02章_模型评估与选择</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://space.bilibili.com/151549281/favlist" class="iconfont icon-bilibili" title="bilibili"></a>
+      <a href="https://www.douban.com/people/174007085/" class="iconfont icon-douban" title="douban"></a>
+      <a href="jwzzy19950225@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/xy19950225" class="iconfont icon-github" title="github"></a>
+  <a href="https://xy19950225.github.io/hugo-blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/hugo-blog/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>Yang Xu</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.min.js" integrity="sha256-jwCP0NAdCBloaIWTWHmW4i3snUNMHUNO+jr9rYd2iOI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/timeago.js@3.0.2/dist/timeago.locales.min.js" integrity="sha256-ZwofwC1Lf/faQCzN7nZtfijVV6hSwxjQMwXL4gn9qU8=" crossorigin="anonymous"></script>
+  <script><!-- NOTE: timeago.js uses the language code format like "zh_CN" (underscore and case sensitive) -->
+    var languageCode = "zh-cn".replace(/-/g, '_').replace(/_(.*)/, function ($0, $1) {return $0.replace($1, $1.toUpperCase());});
+    timeago().render(document.querySelectorAll('.timeago'), languageCode);
+    timeago.cancel();  
+  </script><script></script><script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/hugo-blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

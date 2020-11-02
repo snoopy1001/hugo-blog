@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sklearn on Yang Xu&#39;s Blog</title>
+    <link>https://xy19950225.github.io/hugo-blog/categories/sklearn/</link>
+    <description>Recent content in sklearn on Yang Xu&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>Yang Xu</copyright>
+    <lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xy19950225.github.io/hugo-blog/categories/sklearn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[笔记] sklearn 分层抽样</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%88%86%E5%B1%82%E6%8A%BD%E6%A0%B7/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%88%86%E5%B1%82%E6%8A%BD%E6%A0%B7/</guid>
+      <description>官方文档 sklearn.model_selection.StratifiedShuffleSplit https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html 基本语法 sklearn.model_selection.StratifiedShuffleSplit(n_splits=10, ***, test_size=None, train_size=None, random_state=None) 一般形式 StratifiedShuffleSplit(n_splits=5, test_size=0.5, random_state=0) 参数说明 官方示例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 &amp;gt;&amp;gt;&amp;gt; import numpy as np &amp;gt;&amp;gt;&amp;gt; from sklearn.model_selection import StratifiedShuffleSplit &amp;gt;&amp;gt;&amp;gt; X = np.array([[1, 2], [3, 4],</description>
+    </item>
+    
+    <item>
+      <title>[笔记] sklearn 划分数据集</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%88%92%E5%88%86%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%88%92%E5%88%86%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
+      <description>官方文档 sklearn.model_selection.train_test_split 基本语法 sklearn.model_selection.train_test_split(*arrays, **options) 一般形式 参数说明 参数 说明 test_size float类型，必须是[0,1]之间，代表测试集占总数据集的比例。也可以是int类型，代表测</description>
+    </item>
+    
+    <item>
+      <title>[笔记] sklearn 填充缺失值</title>
+      <link>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://xy19950225.github.io/hugo-blog/post/2020-10-27-%E7%AC%94%E8%AE%B0-sklearn-%E5%A1%AB%E5%85%85%E7%BC%BA%E5%A4%B1%E5%80%BC/</guid>
+      <description>介绍 SimpleImputer 类提供了估算缺失值的基本策略。缺失值可以用提供的常量值来计算， 或使用缺失值所在的每一列的统计数据(平均值、中位数或最频繁)。该类还允许</description>
+    </item>
+    
+  </channel>
+</rss>
